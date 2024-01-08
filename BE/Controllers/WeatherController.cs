@@ -64,6 +64,15 @@ namespace IoT.Controllers
             var deviceInfo = await _context.DeviceInfos
                        .OrderByDescending(p => p.DateTime)
                        .FirstOrDefaultAsync();
+            }
+            return Ok(deviceInfo);
+        }
+
+	[HttpGet]
+        public async Task<IActionResult> GetDeviceStatus(){
+            var deviceInfo = await _context.DeviceInfos
+                       .OrderByDescending(p => p.DateTime)
+                       .FirstOrDefaultAsync();
             var data = await _context.WeatherDatas.OrderByDescending(p => p.DateTime).FirstOrDefaultAsync();
 
             if (data.DateTime != null && DateTime.UtcNow.Subtract(data.DateTime.Value).TotalMinutes <= 5)
@@ -76,6 +85,7 @@ namespace IoT.Controllers
             }
             return Ok(deviceInfo);
         }
+
 
         [HttpPost]
         public async Task<IActionResult> SendData(DeviceInfo deviceInfo)
